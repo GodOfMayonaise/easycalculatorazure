@@ -1,11 +1,20 @@
-from flask import Flask
+from flask import Flask, render_template
+from docx import Document
 
-app = Flask("easycalculatorwebapp")
+app = Flask(__name__)
+
 
 @app.route("/")
-def hello_world():
-    return """<p>Hello Worl!</p> <a href="/store>Store</a>"""
+def index():
+    return render_template("home.html")
 
-@app.route("/store")
-def store():
-    return "<p>This is the Store front!</p>"
+@app.route("/doc")
+def document():
+    document = Document("templates/OffenderPaperLetter.docx")
+    string = ""
+    for paragraph in document.paragraphs:
+        string += paragraph.text
+    return string
+
+if __name__ == "__main__":
+    app.run()
